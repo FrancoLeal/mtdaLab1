@@ -25,3 +25,8 @@ dat.m = melt(data.without.na, id=c('ID','Class'))
 p = ggplot(dat.m) + geom_boxplot(aes(x=variable, y=value)) + facet_grid(.~Class)
 
 print(p)
+
+data.2 = data.without.na[,2:10]
+
+BIC=mclustBIC(data.2[,1:9], prior = priorControl(functionName="defaultPrior", shrinkage=0.1))
+plot(BIC)

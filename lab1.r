@@ -1,21 +1,27 @@
 require('mclust')
+require('ggplot2')
 require('reshape2')
 
-#path = "~/Documentos/2-2019/TMDA/Lab 1/breast-cancer-wisconsin.data
-path = "~/Escritorio/USACH/Topicos/Taller de mineria de datos avanzada/tmdaLab1/breast-cancer-wisconsin.data"
+path = "~/Documentos/2-2019/TMDA/Lab 1/breast-cancer-wisconsin.data"
+#path = "~/Escritorio/USACH/Topicos/Taller de mineria de datos avanzada/tmdaLab1/breast-cancer-wisconsin.data"
 data =  read.table(path,sep=",", na.strings = c("?"))
 
-names = c('ID','Clump Thickness','Uniformity of Cell Size',
-          'Uniformity of Cell Shape','Marginal Adhesion','Single Epithelial Cell Size',
-          'Bare Nuclei','Bland Chromatin','Normal Nucleoli','Mitoses','Class')
+names = c('ID','CT','UCSize',
+          'UCShape','MA','SECS',
+          'BN','BC','NN','M','Class')
 colnames(data) = names
 
 summary(data)
 
+data.without.na = na.omit(data)
 
-dat.m = melt(data, id=c('ID','Class'))
+means <- sapply(data.without.na,mean)
+medians <- sapply(data.without.na,median)
+modes <- sapply(data.without.na,mode)
+vars <- sapply(data.without.na,var)
 
-library(ggplot2)
+
+dat.m = melt(data.without.na, id=c('ID','Class'))
 p = ggplot(dat.m) + geom_boxplot(aes(x=variable, y=value)) + facet_grid(.~Class)
 
 print(p)

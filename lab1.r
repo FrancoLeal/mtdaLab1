@@ -30,3 +30,19 @@ data.2 = data.without.na[,2:10]
 
 BIC=mclustBIC(data.2[,1:9], prior = priorControl(functionName="defaultPrior", shrinkage=0.1))
 plot(BIC)
+
+summary(BIC)
+
+show(vars)
+
+data.3 = subset(data.2, select=-M)
+
+BIC=mclustBIC(data.3[,1:8], prior = priorControl(functionName="defaultPrior", shrinkage=0.1))
+plot(BIC)
+
+summary(BIC)
+
+modelo = Mclust(data.3[,1:8],x=BIC)
+summary(modelo)
+plot(modelo,what = "classification")
+#coef de variacion desv est/media

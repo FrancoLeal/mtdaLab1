@@ -49,13 +49,15 @@ vars <- sapply(data.2,var)
 # 3.002160 
 
 show(sqrt(vars)/means)
-data.benigno <- data.without.na[which(data.without.na$Class == 2),]
-data.maligno <- data.without.na[which(data.without.na$Class == 4),]
+
 #Coeficientes de variación
 #       CT    UCSize   UCShape        MA      SECS        BN        BC        NN 
 # 0.6349967 0.9728132 0.9295085 1.0121552 0.6873551 1.0279861 0.7110679 1.0637608 
 #         M 
 # 1.0807456
+
+data.benigno <- data.without.na[which(data.without.na$Class == "Benigno"),]
+data.maligno <- data.without.na[which(data.without.na$Class == "Maligno"),]
 
 means.benigno <- sapply(data.benigno,mean)
 medians.benigno <- sapply(data.benigno,median)

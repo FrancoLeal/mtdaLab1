@@ -123,7 +123,7 @@ show(corr)
 # Debido a esto, se procede a eliminar ese atributo y proceder con el clustering
 # con los 8 atributos restantes.
 
-data.3 = subset(data.2,select=-UCSize)
+data.3 = subset(data.2,select=size)
 
 BIC2=mclustBIC(data.3[,1:8], prior = priorControl(functionName="defaultPrior", shrinkage=0.1))
 plot(BIC2)

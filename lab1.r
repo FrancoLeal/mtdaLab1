@@ -3,7 +3,7 @@ require('ggplot2')
 require('reshape2')
 require('Hmisc')
 #require('corrplot')
-require('fitdistrplus')
+#require('fitdistrplus')
 
 getmode <- function(x){
   uniqv <- unique(x)
@@ -14,7 +14,7 @@ path = "~/Documentos/2-2019/TMDA/tmdaLab1/breast-cancer-wisconsin.data"
 #path = "~/Escritorio/USACH/Topicos/Taller de mineria de datos avanzada/tmdaLab1/breast-cancer-wisconsin.data"
 data =  read.table(path,sep=",", na.strings = c("?"))
 
-names = c('ID','shape','size',
+names = c('ID','clump','size',
           'shape','adhesion','epithelial',
           'nuclei','chromatin','nucleoli','mitoses','Class')
 colnames(data) = names
@@ -121,7 +121,7 @@ summary(modelo)
 # Clustering table:
 #  1   2   3   4 
 #115 274 235  59 
-plot(modelo,whatx = "classification")
+plot(modelo,what = "classification")
 
 
 corr = rcorr(as.matrix(data.2))
@@ -143,19 +143,19 @@ show(corr)
 # Debido a esto, se procede a eliminar ese atributo y proceder con el clustering
 # con los 8 atributos restantes.
 
-data.3 = subset(data.2,select=size)
+data.3 = subset(data.2,select=-size)
 
 BIC2=mclustBIC(data.3[,1:8], prior = priorControl(functionName="defaultPrior", shrinkage=0.1))
 plot(BIC2)
 
-summary(BIC)
+summary(BIC2)
 
 # Best BIC values:
-#              VVV,4       VVV,5       VVI,8
-# BIC      -14753.29 -14979.3212 -15312.4484
-# BIC diff      0.00   -226.0263   -559.1535
+# VVV,5        VVI,7        VVI,9
+# BIC      -13770.02 -13784.17731 -13827.61844
+# BIC diff      0.00    -14.16055    -57.60168
 
-modelo = Mclust(data.3[,1:8],x=BIC)
+modelo = Mclust(data.3[,1:8],x=BIC2)
 summary(modelo)
 # ---------------------------------------------------- 
 # Gaussian finite mixture model fitted by EM algorithm 
@@ -174,7 +174,7 @@ summary(modelo)
 # 94 276 244  69 
 plot(modelo,what = "classification")
 
+corr = rcorr(as.matrix(data.3))
+show(corr)
 #m = cor(data.3)
 #corrplot(m,method="number")
-
-

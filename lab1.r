@@ -10,8 +10,8 @@ getmode <- function(x){
   uniqv[which.max(tabulate(match(x,uniqv)))]
 }
 
-path = "~/Documentos/2-2019/TMDA/Lab 1/breast-cancer-wisconsin.data"
-#path = "~/Escritorio/USACH/Topicos/Taller de mineria de datos avanzada/tmdaLab1/breast-cancer-wisconsin.data"
+#path = "~/Documentos/2-2019/TMDA/Lab 1/breast-cancer-wisconsin.data"
+path = "~/Escritorio/USACH/Topicos/Taller de mineria de datos avanzada/tmdaLab1/breast-cancer-wisconsin.data"
 data =  read.table(path,sep=",", na.strings = c("?"))
 
 names = c('ID','shape','size',

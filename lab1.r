@@ -7,12 +7,12 @@ path = "~/Documentos/2-2019/TMDA/Lab 1/breast-cancer-wisconsin.data"
 #path = "~/Escritorio/USACH/Topicos/Taller de mineria de datos avanzada/tmdaLab1/breast-cancer-wisconsin.data"
 data =  read.table(path,sep=",", na.strings = c("?"))
 
-names = c('ID','CT','UCSize',
-          'UCShape','MA','SECS',
-          'BN','BC','NN','M','Class')
+names = c('ID','shape','size',
+          'shape','adhesion','epithelial',
+          'nuclei','chromatin','nucleoli','mitoses','Class')
 colnames(data) = names
 
-summary(data)
+print(summary(data))
 
 data.without.na = na.omit(data)
 
@@ -22,6 +22,18 @@ modes <- sapply(data.without.na,mode)
 vars <- sapply(data.without.na,var)
 
 show(sqrt(vars)/means)
+data.benigno <- data.without.na[which(data.without.na$Class == 2),]
+data.maligno <- data.without.na[which(data.without.na$Class == 4),]
+
+means.benigno <- sapply(data.benigno,mean)
+medians.benigno <- sapply(data.benigno,median)
+modes.benigno <- sapply(data.benigno,mode)
+vars.benigno <- sapply(data.benigno,var)
+
+means.maligno <- sapply(data.maligno,mean)
+medians.maligno <- sapply(data.maligno,median)
+modes.maligno <- sapply(data.maligno,mode)
+vars.maligno <- sapply(data.maligno,var)
 
 
 dat.m = melt(data.without.na, id=c('ID','Class'))

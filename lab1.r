@@ -6,8 +6,10 @@ require('Hmisc')
 require('fitdistrplus')
 library('ggbiplot')
 
+library(cluster)
+library(factoextra)
 
-install_github("vqv/ggbiplot")
+
 
 
 getmode <- function(x){
@@ -180,13 +182,31 @@ summary(modelo)
 plot(modelo,what = "classification")
 legend("bottomright", legend = 1:4, #numero de clusters de mod6
        col = mclust.options("classPlotColors"),
-       pch = mclust.options("classPlotSymbols"),title = "Class labels:")
+       pch = mclust.options("classPlotSymbols"),title = "Grupos")
 
 corr = rcorr(as.matrix(data.3))
 show(corr)
-#m = cor(data.3)
+#m = cor(data.3)  
 #corrplot(m,method="number")
+class <- data.without.na$Class
+table(class,
+      modelo$classification)
 
 
+diss.matrix = daisy(data.3, metric = "euclidean",
+                    stand = FALSE)
 
+opt = fviz_nbclust(data.3, pam, method = "wss") 
+
+print(opt)
+
+clusters = pam(diss.matrix,2,diss=TRUE, metric="euclidean")
+
+summary(clusters)
+
+clusplot(clusters)
+
+fviz_cluster(clusters, data = NULL, stand = TRUE,
+             geom = "point",
+             ellipse = TRUE, ellypse.type = "convex")
 
